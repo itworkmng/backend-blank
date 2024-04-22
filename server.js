@@ -23,6 +23,7 @@ const mailRoutes = require("./routes/mail");
 const orderRoutes = require("./routes/order");
 const payRoutes = require("./routes/payment");
 const adminRoutes = require("./routes/admin");
+const successRoutes = require("./routes/success");
 const injectDb = require("./middleware/injectDb");
 
 // Аппын тохиргоог process.env рүү ачаалах
@@ -74,6 +75,7 @@ app.use("/api/v1/mail", mailRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/payment", payRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1", successRoutes);
 app.use(errorHandler);
 
 db.users.hasMany(db.clients, { onDelete: "CASCADE", hooks: true });

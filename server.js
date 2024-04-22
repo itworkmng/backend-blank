@@ -62,12 +62,12 @@ app.use(fileupload());
 app.use(injectDb(db));
 
 // create a write stream (in append mode)
-var accessLogStream = rfs.createStream("access.log", {
-  interval: "1d", // rotate daily
-  path: path.join(__dirname, "log"),
-});
+// var accessLogStream = rfs.createStream("access.log", {
+//   interval: "1d", // rotate daily
+//   path: path.join(__dirname, "log"),
+// });
 
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 app.use("/api/v1/user", usersRoutes);
 app.use("/api/v1/client", clientsRoutes);
 app.use("/api/v1/blank", blankRoutes);

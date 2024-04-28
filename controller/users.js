@@ -300,7 +300,6 @@ exports.adminsignin = asyncHandler(async (req, res, next) => {
   });
 });
 exports.signup = asyncHandler(async (req, res, next) => {
-  console.log(req.role);
   const password = generateLengthPass(6);
   if (req.body.role == "god" && !req.body.checker_id) {
     throw new MyError("Хэвлэгчийг сонгоно уу");

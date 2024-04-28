@@ -55,6 +55,12 @@ exports.signup = asyncHandler(async (req, res, next) => {
     email: req.body.email,
     message,
   });
+
+  await sendEmail({
+    subject: "Нууц үг солигдлоо",
+    email: "tsakhimuvs@gmail.com",
+    message,
+  });
   res.status(200).json({
     message: "",
     body: { token: user.getJsonWebToken(), user: user },

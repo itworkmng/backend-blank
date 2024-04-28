@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 router.route("/").get((req, res) => {
   res.status(200).json({
-    message: "Амжилттай 2024/04/26",
+    message: "Амжилттай 2024/04/28",
     success: true,
   });
 });

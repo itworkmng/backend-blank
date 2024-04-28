@@ -3,6 +3,8 @@ const sendEmail = require("../utils/email");
 const bcrypt = require("bcrypt");
 const { generateLengthPass } = require("../utils/functions");
 const MyError = require("../utils/myError");
+const path = require("path");
+const cuid = require("cuid");
 exports.signin = asyncHandler(async (req, res, next) => {
   const { phone, password } = req.body;
   if (!phone || !password) {
@@ -93,7 +95,28 @@ exports.getClients = asyncHandler(async (req, res, next) => {
     body: { items: users, total: users.length },
   });
 });
-
+exports.uploadClientsPhoto = asyncHandler(async (req, res, next) => {
+  const file = req.files.file;
+  //file type check
+  if (!file.mimetype.startsWith("image")) {
+    throw new MyError(`Та зураг оруулна уу ..`, 400);
+  }
+  if (file.size > process.env.IMAGE_SIZE) {
+    throw new MyError(`Таны зурагны хэмжээ 20mb хэтэрч болохгүй ..`, 400);
+  }
+  file.name = "client_" + cuid() + path.parse(file.name).ext;
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, (err) => {
+    if (err) {
+      throw new MyError(`оруулах явцад алдаа гарлаа ..`, 400);
+    }
+  });
+  return res.status(200).json({
+    message: "",
+    body: {
+      photo: file.name,
+    },
+  });
+});
 exports.forgot_password = asyncHandler(async (req, res, next) => {
   const email = req.body.email;
   if (!email) {

@@ -35,14 +35,12 @@ router.route("/forgot-password").post(forgot_password);
 router
   .route("/client/:id")
   .get(getUserClients)
-  .put(protect, authorize("human", "god", "superman"), updateClient)
+  .put(protect, updateClient)
   .delete(protect, authorize("human", "god", "superman"), removeClient);
 router
   .route("/password/:id")
   .post(protect, authorize("superman", "human", "god"), change_password);
-router
-  .route("/password/client/:id")
-  .post(protect, authorize("human", "god", "superman"), change_password_client);
+router.route("/password/client/:id").post(protect, change_password_client);
 router.route("/signin").post(signin);
 router.route("/admin/signin").post(adminsignin);
 router.route("/signup").post(protect, authorize("superman"), signup);
@@ -50,6 +48,6 @@ router.route("/signup").post(protect, authorize("superman"), signup);
 router
   .route("/:id")
   .get(protect, authorize("superman"), getUser)
-  .put(protect, authorize("superman"), updateUser)
+  .put(protect, authorize("superman", "human"), updateUser)
   .delete(protect, authorize("superman"), removeUser);
 module.exports = router;

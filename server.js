@@ -76,6 +76,7 @@ app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/payment", payRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1", successRoutes);
+app.use(express.static("public"));
 app.use(errorHandler);
 
 db.users.hasMany(db.clients, { onDelete: "CASCADE", hooks: true });

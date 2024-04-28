@@ -9,12 +9,16 @@ const {
   getInfo,
   getManageInfo,
   forgot_password,
+  uploadClientsPhoto,
 } = require("../controller/clients");
 const { getClientBlanks } = require("../controller/blank");
 
 //"/api/v1/client"
 router.route("/").get(getClients);
 router.route("/forgot-password").post(forgot_password);
+router
+  .route("/upload")
+  .post(protect, authorize("superman", "god", "human"), uploadClientsPhoto);
 router.route("/blank").get(protect, getClientBlanks);
 router.route("/signin").post(signin);
 router

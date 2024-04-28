@@ -87,7 +87,7 @@ exports.updateClient = asyncHandler(async (req, res, next) => {
         userId: god.checker_id,
       },
     });
-  } else {
+  } else if (req.role == "human") {
     const user = await req.db.users.findByPk(userId);
     if (!user.is_active) {
       throw new MyError("Таны эрх хаагдсан байна");
@@ -96,6 +96,12 @@ exports.updateClient = asyncHandler(async (req, res, next) => {
       where: {
         id: clientId,
         userId: userId,
+      },
+    });
+  } else {
+    await req.db.clients.update(req.body, {
+      where: {
+        id: clientId,
       },
     });
   }
@@ -442,7 +448,7 @@ exports.change_password_client = asyncHandler(async (req, res, next) => {
 exports.forgot_password = asyncHandler(async (req, res, next) => {
   const email = req.body.email;
   if (!email) {
-    throw new MyError("хэрэглэгч олдсонгүй!", 400);
+    throw new MyError("Хэрэглэгч олдсонгүй!", 400);
   }
   const users = await req.db.users.findOne({
     where: {

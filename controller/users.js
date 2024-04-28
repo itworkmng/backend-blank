@@ -323,7 +323,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   Та “Хэвлэмэл хуудасны захиалга, хяналтын систем”-д дараах эрхээр нэвтрэн орж хэвлэмэл хуудасны захиалгаа өгнө үү.<br>
   Холбоос: <a href="www.eblank.mn">www.eblank.mn</a><br>
   Нэвтрэх нэр: <b>${user.phone_number}</b><br>
-  Нууц үг: <b>${new_password}</b><br>
+  Нууц үг: <b>${password}</b><br>
   Өдрийг сайхан өнгөрүүлээрэй!<br>
   <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
 

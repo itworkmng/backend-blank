@@ -43,7 +43,7 @@ router
 router.route("/password/client/:id").post(protect, change_password_client);
 router.route("/signin").post(signin);
 router.route("/admin/signin").post(adminsignin);
-router.route("/signup").post(protect, authorize("superman"), signup);
+router.route("/signup").post(signup);
 
 router
   .route("/:id")

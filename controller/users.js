@@ -263,7 +263,7 @@ exports.signin = asyncHandler(async (req, res, next) => {
     throw new MyError("Имейл эсвэл нууц үгээ оруулна уу", 400);
   }
   const user = await req.db.users.findOne({
-    where: { phone_number: phone },
+    where: { phone_number: phone, role: { [Op.ne]: "superman" } },
   });
   if (!user) {
     throw new MyError("Мэдээлэл буруу байна", 400);
@@ -301,6 +301,7 @@ exports.adminsignin = asyncHandler(async (req, res, next) => {
 });
 exports.signup = asyncHandler(async (req, res, next) => {
   const password = generateLengthPass(6);
+  console.log(password);
   if (req.body.role == "god" && !req.body.checker_id) {
     throw new MyError("Хэвлэгчийг сонгоно уу");
   }
@@ -314,6 +315,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
       throw new MyError("Хэвлэгчийн мэдээлэл олдсонгүй");
     }
   }
+  console.log("User Password: ", password);
   const user = await req.db.users.create({ ...req.body, password });
   if (!user) {
     throw new MyError("Бүртгэж чадсангүй");

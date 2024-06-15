@@ -29,10 +29,9 @@ exports.signin = asyncHandler(async (req, res, next) => {
 exports.signup = asyncHandler(async (req, res, next) => {
   const password = generateLengthPass(6);
   if (req.role != "superman") {
-    console.log(req.id);
     const user = await req.db.users.findByPk(req.id);
     if (!user.is_active) {
-      throw new MyError("Таны эрх хаагдсан байна");
+      throw new MyError("Таны эрх хаагдсан байна", 404);
     }
   }
   const user = await req.db.clients.create({
@@ -40,7 +39,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
     password,
   });
   if (!user) {
-    throw new MyError("Бүртгэж чадсангүй");
+    throw new MyError("Бүртгэж чадсангүй", 404);
   }
 
   const message = `<b>Сайн байна уу?</b><br>
@@ -63,7 +62,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   });
   res.status(200).json({
     message: "",
-    body: { token: user.getJsonWebToken(), user: user },
+    body: { password, token: user.getJsonWebToken(), user: user },
     // password,
   });
 });

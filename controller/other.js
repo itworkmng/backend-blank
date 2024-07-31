@@ -3,7 +3,7 @@ const asyncHandler = require("../middleware/asyncHandle");
 const MyError = require("../utils/myError");
 
 exports.findRgstr = asyncHandler(async (req, res, next) => {
-  const { register } = req.body;
+  const register = req.params.id;
   if (!register) {
     throw new MyError("Регистр байхгүй байна", 404);
   }

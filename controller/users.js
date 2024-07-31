@@ -467,7 +467,7 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
 
   const find_users = await req.db.users.findByPk(users.id);
   if (!find_users) {
-    throw new MyError("Мэдээлэл олдсонгүй", 404);
+    throw new MyError("Хэрэглэгчийн Мэдээлэл олдсонгүй", 404);
   }
   const message = `<b>Сайн байна уу?</b><br>
   Та “Хэвлэмэл хуудасны захиалга, хяналтын систем”-д дараах эрхээр нэвтрэн орж хэвлэмэл хуудасны захиалгаа өгнө үү.<br>

@@ -23,6 +23,7 @@ const mailRoutes = require("./routes/mail");
 const orderRoutes = require("./routes/order");
 const payRoutes = require("./routes/payment");
 const adminRoutes = require("./routes/admin");
+const otherRoutes = require("./routes/other");
 const successRoutes = require("./routes/success");
 const injectDb = require("./middleware/injectDb");
 
@@ -75,6 +76,7 @@ app.use("/api/v1/mail", mailRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/payment", payRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/other", otherRoutes);
 app.use("/api/v1", successRoutes);
 app.use(express.static("public"));
 app.use(errorHandler);

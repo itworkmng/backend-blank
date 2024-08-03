@@ -1,12 +1,15 @@
 const axios = require("axios");
 const asyncHandler = require("../middleware/asyncHandle");
 const MyError = require("../utils/myError");
+
 exports.findRgstr = asyncHandler(async (req, res, next) => {
   const register = req.params.id;
   if (!register) {
     throw new MyError("Регистр байхгүй байна", 404);
   }
+
   const url = `https://info.ebarimt.mn/rest/merchant/info?regno=${register}`;
+
   try {
     const response = await axios.get(url, { timeout: 10000 }); // 10 seconds timeout
     res.status(200).json({
@@ -18,6 +21,7 @@ exports.findRgstr = asyncHandler(async (req, res, next) => {
     if (error.code === "ECONNABORTED") {
       errorMessage = "Request timed out";
     }
+    console.error(`Error fetching data from ${url}:`, error);
     res.status(500).json({
       success: false,
       error: {

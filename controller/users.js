@@ -369,6 +369,8 @@ exports.change_password = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
+  console.log(new_password);
+
   const password = await bcrypt.hash(new_password, salt);
   await req.db.users.update(
     { password: password },
@@ -408,6 +410,8 @@ exports.change_password_client = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
+  console.log(new_password);
+
   const password = await bcrypt.hash(new_password, salt);
   await req.db.clients.update(
     { password: password },
@@ -455,6 +459,7 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
+  console.log(new_password);
   const password = await bcrypt.hash(new_password, salt);
   await req.db.users.update(
     { password },

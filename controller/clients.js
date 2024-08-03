@@ -28,6 +28,8 @@ exports.signin = asyncHandler(async (req, res, next) => {
 });
 exports.signup = asyncHandler(async (req, res, next) => {
   const password = generateLengthPass(6);
+  console.log(password);
+
   if (req.role != "superman") {
     const user = await req.db.users.findByPk(req.id);
     if (!user.is_active) {
@@ -137,6 +139,8 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
+  console.log(new_password);
+
   const password = await bcrypt.hash(new_password, salt);
   await req.db.clients.update(
     { password },

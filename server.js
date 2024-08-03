@@ -52,7 +52,22 @@ app.use(logger);
 // Body дахь өгөгдлийг Json болгож өгнө
 app.use(express.json());
 // Өөр өөр домэйнтэй вэб аппуудад хандах боломж өгнө
-app.use(cors());
+const allowedOrigins = ["https://api.eblank.mn", "https://info.ebarimt.mn"];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 // Клиент вэб аппуудыг мөрдөх ёстой нууцлал хамгаалалтыг http header ашиглан зааж өгнө
 app.use(helmet());
 // клиент сайтаас ирэх Cross site scripting халдлагаас хамгаална

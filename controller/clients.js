@@ -46,7 +46,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
   const message = `<b>Сайн байна уу?</b><br>
   Та “Хэвлэмэл хуудасны захиалга, хяналтын систем”-д дараах эрхээр нэвтрэн орж хэвлэмэл хуудасны захиалгаа өгнө үү.<br>
-  Холбоос: <a href="www.eblank.mn">www.eblank.mn</a><br>
+  Холбоос: <a href="order.eblank.mn">order.eblank.mn</a><br>
   Нэвтрэх нэр: <b>${req.body.phone_number}</b><br>
   Нууц үг: <b>${password}</b><br>
   Өдрийг сайхан өнгөрүүлээрэй!<br>
@@ -57,11 +57,6 @@ exports.signup = asyncHandler(async (req, res, next) => {
     message,
   });
 
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
-    email: "tsakhimuvs@gmail.com",
-    message,
-  });
   res.status(200).json({
     message: "",
     body: { password, token: user.getJsonWebToken(), user: user },

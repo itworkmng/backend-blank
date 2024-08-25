@@ -24,6 +24,14 @@ exports.removeBlank = asyncHandler(async (req, res, next) => {
   if (!blank) {
     throw new MyError(`${req.params.id} id тэй blank олдсонгүй.`, 400);
   }
+  const orderItems = await req.db.order_item.findOne({
+    where: {
+      blankId: req.params.id,
+    },
+  });
+  if (orderItems) {
+    throw new MyError("Устгах боломжгүй байна!!");
+  }
   await blank.destroy();
   res.status(200).json({
     message: "",

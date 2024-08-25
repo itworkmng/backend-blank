@@ -120,14 +120,6 @@ exports.removeClient = asyncHandler(async (req, res, next) => {
         id: clientId,
       },
     });
-    const blank = await req.db.blank.findOne({
-      where: {
-        clientId: clientId,
-      },
-    });
-    if (blank) {
-      throw new MyError("Устгах боломжгүй байна!!");
-    }
     await client.destroy();
   } else if (req.role == "god") {
     const god = await req.db.users.findByPk(req.id);
@@ -140,6 +132,15 @@ exports.removeClient = asyncHandler(async (req, res, next) => {
         userId: god.checker_id,
       },
     });
+
+    const blank = await req.db.blank.findOne({
+      where: {
+        clientId: clientId,
+      },
+    });
+    if (blank) {
+      throw new MyError("Устгах боломжгүй байна!!");
+    }
     await client.destroy();
   } else {
     const client = await req.db.clients.findOne(req.body, {
@@ -148,6 +149,15 @@ exports.removeClient = asyncHandler(async (req, res, next) => {
         userId,
       },
     });
+
+    const blank = await req.db.blank.findOne({
+      where: {
+        clientId: clientId,
+      },
+    });
+    if (blank) {
+      throw new MyError("Устгах боломжгүй байна!!");
+    }
     await client.destroy();
   }
 

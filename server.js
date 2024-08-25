@@ -91,7 +91,7 @@ db.clients.hasMany(db.blank, { onDelete: "CASCADE", hooks: true });
 db.users.hasMany(db.blank, { onDelete: "CASCADE", hooks: true });
 db.blank.belongsTo(db.users);
 
-db.users.hasMany(db.order, { onDelete: "CASCADE", hooks: true });
+db.users.hasMany(db.order);
 db.order.belongsTo(db.users);
 
 db.order.hasMany(db.order_item, { onDelete: "CASCADE", hooks: true });

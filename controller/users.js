@@ -125,7 +125,7 @@ exports.removeClient = asyncHandler(async (req, res, next) => {
         clientId: clientId,
       },
     });
-    if (!blank) {
+    if (blank) {
       throw new MyError("Устгах боломжгүй байна!!");
     }
     await client.destroy();

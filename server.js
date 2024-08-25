@@ -88,7 +88,7 @@ db.clients.hasMany(db.payment, { onDelete: "CASCADE", hooks: true });
 db.clients.hasMany(db.order, { onDelete: "CASCADE", hooks: true });
 db.clients.hasMany(db.blank, { onDelete: "CASCADE", hooks: true });
 
-db.users.hasMany(db.blank, { onDelete: "CASCADE", hooks: true });
+db.users.hasMany(db.blank);
 db.blank.belongsTo(db.users);
 
 db.users.hasMany(db.order);

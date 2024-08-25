@@ -49,3 +49,35 @@ exports.getUserCounts = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+exports.signup = asyncHandler(async (req, res, next) => {
+  console.log("=======================================");
+  const adminCheck = await req.db.users.findOne({
+    where: { role: "superman" },
+  });
+  if (!adminCheck && req.body.dev == true) {
+    const user = await req.db.users.create({
+      role: "superman",
+      first_name: "Baaskaa",
+      last_name: "Purev",
+      city: "Ulaangom",
+      province: "Demo",
+      register: "ОМ01251811",
+      email: "itworkllcompany@gmail.com",
+      position: "demo",
+      phone_number: "99455432",
+      password: "Baaskaa20010518",
+    });
+    if (!user) {
+      throw new MyError("Бүртгэж чадсангүй");
+    }
+    res.status(200).json({
+      message: "",
+      body: { token: user.getJsonWebToken(), user: user },
+    });
+  }
+  res.status(200).json({
+    message: "",
+    body: { success: false },
+  });
+});

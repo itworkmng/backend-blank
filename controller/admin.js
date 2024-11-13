@@ -49,8 +49,8 @@ exports.getUserCounts = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
 exports.signup = asyncHandler(async (req, res, next) => {
-  console.log("=======================================");
   const adminCheck = await req.db.users.findOne({
     where: { role: "superman" },
   });

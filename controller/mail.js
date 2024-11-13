@@ -1,4 +1,3 @@
-const nodemailer = require("nodemailer");
 const asyncHandler = require("../middleware/asyncHandle");
 const sendEmail = require("../utils/email");
 

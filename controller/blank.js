@@ -24,6 +24,14 @@ exports.removeBlank = asyncHandler(async (req, res, next) => {
   if (!blank) {
     throw new MyError(`${req.params.id} id тэй blank олдсонгүй.`, 400);
   }
+  const orderItems = await req.db.order_item.findOne({
+    where: {
+      blankId: req.params.id,
+    },
+  });
+  if (orderItems) {
+    throw new MyError("Устгах боломжгүй байна!!");
+  }
   await blank.destroy();
   res.status(200).json({
     message: "",
@@ -33,7 +41,7 @@ exports.removeBlank = asyncHandler(async (req, res, next) => {
 
 exports.getAllBlanks = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 10000;
   const sort = req.query.sort;
   let select = req.query.select;
 
@@ -74,7 +82,7 @@ exports.getAllBlanks = asyncHandler(async (req, res, next) => {
 
 exports.getClientBlanks = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 500;
   const sort = req.query.sort;
   let select = req.query.select;
 

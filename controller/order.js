@@ -97,10 +97,18 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
   let query = {};
 
   if (req.query) {
+    if (req.role == "human") {
       query.where = {
         ...req.query,
         userId: req.id,
       };
+    } else if (req.role == "god") {
+      const findUser = await req.db.users.findByPk(req.id);
+        query.where = {
+          ...req.query,
+          userId: findUser.checker_id,
+        };
+    }
   }
 
   if (select) {

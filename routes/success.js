@@ -3,8 +3,8 @@ const router = express.Router();
 router.route("/").get((req, res) => {
   res.status(200).json({
     message: {
-      counter:169,
-      message:"Relation DB fix"
+      counter:170,
+      message:"Fix related hynalt"
     },
     success: true,
   });

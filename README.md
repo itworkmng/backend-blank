@@ -7,5 +7,3 @@ Define all the routes to handle each CRUD function.
 Open Postman.
 Test the REST CRUD API.
 # backend-blank
-# backend
-# backend-blank

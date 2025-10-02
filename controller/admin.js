@@ -14,6 +14,7 @@ exports.getCounts = asyncHandler(async (req, res, next) => {
     },
   });
   const total_price = await req.db.payment.sum("price");
+  const order_price = await req.db.order.sum("total_price");
   res.status(200).json({
     message: "",
     body: {
@@ -22,6 +23,7 @@ exports.getCounts = asyncHandler(async (req, res, next) => {
       clients,
       order,
       total_price,
+      order_price
     },
   });
 });
@@ -64,8 +66,8 @@ exports.signup = asyncHandler(async (req, res, next) => {
       register: "ОМ01251811",
       email: "itworkllcompany@gmail.com",
       position: "demo",
-      phone_number: "99455432",
-      password: "Baaskaa20010518",
+      phone_number: "88346566",
+      password: "88346566",
     });
     if (!user) {
       throw new MyError("Бүртгэж чадсангүй");

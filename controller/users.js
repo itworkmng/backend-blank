@@ -319,7 +319,6 @@ exports.adminsignin = asyncHandler(async (req, res, next) => {
 });
 exports.signup = asyncHandler(async (req, res, next) => {
   const password = generateLengthPass(6);
-  console.log(password);
   if (req.body.role == "god" && !req.body.checker_id) {
     throw new MyError("Хэвлэгчийг сонгоно уу");
   }
@@ -333,7 +332,6 @@ exports.signup = asyncHandler(async (req, res, next) => {
       throw new MyError("Хэвлэгчийн мэдээлэл олдсонгүй");
     }
   }
-  console.log("User Password: ", password);
   const user = await req.db.users.create({ ...req.body, password });
   if (!user) {
     throw new MyError("Бүртгэж чадсангүй");

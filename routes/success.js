@@ -4,7 +4,7 @@ router.route("/").get((req, res) => {
   res.status(200).json({
     message: {
       counter:171,
-      message:"Fix related hynalt"
+      message:"Admin Counter Fix related hynalt"
     },
     success: true,
   });

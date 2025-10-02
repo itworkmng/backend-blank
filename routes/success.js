@@ -3,7 +3,7 @@ const router = express.Router();
 router.route("/").get((req, res) => {
   res.status(200).json({
     message: {
-      counter:170,
+      counter:171,
       message:"Fix related hynalt"
     },
     success: true,

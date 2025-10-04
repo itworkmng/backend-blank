@@ -3,8 +3,9 @@ const router = express.Router();
 router.route("/").get((req, res) => {
   res.status(200).json({
     message: {
-      counter:171,
-      message:"Admin Counter Fix related hynalt"
+      message: "EBlank",
+      version: "1.0.0",
+      description: "Checker & Email Security",
     },
     success: true,
   });

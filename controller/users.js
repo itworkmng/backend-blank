@@ -2,8 +2,8 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const asyncHandler = require("../middleware/asyncHandle");
 const MyError = require("../utils/myError");
-const sendEmail = require("../utils/email");
 const { generateLengthPass } = require("../utils/functions");
+const { sendHtmlEmail } = require("../middleware/email");
 
 exports.getUserClients = asyncHandler(async (req, res, next) => {
   const sort = req.query.sort;
@@ -345,11 +345,17 @@ exports.signup = asyncHandler(async (req, res, next) => {
   Өдрийг сайхан өнгөрүүлээрэй!<br>
   <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
 
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+  // Send Email
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: req.body.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+    greeting: "Сайн байна уу?"
+  };
+  await sendHtmlEmail({ ...emailBody })
 
   res.status(200).json({
     message: "",
@@ -385,7 +391,6 @@ exports.change_password = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
-  console.log(new_password);
 
   const password = await bcrypt.hash(new_password, salt);
   await req.db.users.update(
@@ -406,13 +411,17 @@ exports.change_password = asyncHandler(async (req, res, next) => {
   Холбоос: <a href="www.eblank.mn">www.eblank.mn</a><br>
   Нэвтрэх нэр: <b>${find_users.phone_number}</b><br>
   Нууц үг: <b>${new_password}</b><br>
-  Өдрийг сайхан өнгөрүүлээрэй!<br>
-  <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+  Өдрийг сайхан өнгөрүүлээрэй!<br>`;
+
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: find_users.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
 
   res.status(200).json({
     message: "",
@@ -446,13 +455,16 @@ exports.change_password_client = asyncHandler(async (req, res, next) => {
   Холбоос: <a href="www.eblank.mn">www.eblank.mn</a><br>
   Нэвтрэх нэр: <b>${find_users.phone_number}</b><br>
   Нууц үг: <b>${new_password}</b><br>
-  Өдрийг сайхан өнгөрүүлээрэй!<br>
-  <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+  Өдрийг сайхан өнгөрүүлээрэй!<br>`;
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: find_users.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
 
   res.status(200).json({
     message: "",
@@ -495,13 +507,17 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
   Холбоос: <a href="www.eblank.mn">www.eblank.mn</a><br>
   Нэвтрэх нэр: <b>${find_users.phone_number}</b><br>
   Нууц үг: <b>${new_password}</b><br>
-  Өдрийг сайхан өнгөрүүлээрэй!<br>
-  <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+  Өдрийг сайхан өнгөрүүлээрэй!<br>`;
+
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: find_users.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
 
   res.status(200).json({
     message: "",

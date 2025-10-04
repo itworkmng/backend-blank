@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const asyncHandler = require("../middleware/asyncHandle");
 const { generateLengthPass } = require("../utils/functions");
 const MyError = require("../utils/myError");
-const sendEmail = require("../utils/email");
+const { sendHtmlEmail } = require("../middleware/email");
 exports.createOrder = asyncHandler(async (req, res, next) => {
   const { order_item, is_fast } = req.body;
   const client = await req.db.clients.findByPk(req.id);
@@ -30,13 +30,16 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
   });
   const message = `<b>Сайн байна уу?</b><br>
   Танд “${client.company_name}”-с шинээр захиалга ирлээ.<br>
-  Өдрийг сайхан өнгөрүүлээрэй!<br>
-  <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-  await sendEmail({
-    subject: `www.eblank.mn`,
+  Өдрийг сайхан өнгөрүүлээрэй!<br>`;
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: user.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
   res.status(200).json({
     message: "",
     body: { success: true },
@@ -104,10 +107,10 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
       };
     } else if (req.role == "god") {
       const findUser = await req.db.users.findByPk(req.id);
-        query.where = {
-          ...req.query,
-          userId: findUser.checker_id,
-        };
+      query.where = {
+        ...req.query,
+        userId: findUser.checker_id,
+      };
     }
   }
 
@@ -336,13 +339,16 @@ exports.updateOrder = asyncHandler(async (req, res, next) => {
       if (status == "printed") {
         const message = `<b>Сайн байна уу?</b><br>
   Таны захиалга хэвлэгдсэн.<br>
-  Өдрийг сайхан өнгөрүүлээрэй!<br>
-  <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-        await sendEmail({
-          subject: `www.eblank.mn`,
+  Өдрийг сайхан өнгөрүүлээрэй!<br>`;
+        const emailBody = {
+          title: "Цахим бланкийн систем",
+          label: message,
           email: client.email,
-          message,
-        });
+          from: "Системийн Админ",
+          buttonText: "Систем рүү очих",
+          buttonUrl: process.env.WEBSITE_URL,
+        };
+        await sendHtmlEmail({ ...emailBody })
       }
     }
     total_price &&

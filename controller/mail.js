@@ -1,5 +1,5 @@
 const asyncHandler = require("../middleware/asyncHandle");
-const sendEmail = require("../utils/email");
+const { sendHtmlEmail } = require("../middleware/email");
 
 exports.change_password_email = asyncHandler(async (req, res, next) => {
   const message = `<b>Сайн байна уу?</b><br>
@@ -9,11 +9,18 @@ exports.change_password_email = asyncHandler(async (req, res, next) => {
   Нууц үг: <b>${req.body.passwordr}</b><br>
   Өдрийг сайхан өнгөрүүлээрэй!<br>
   <a href="www.eblank.mn">www.eblank.mn</a>`;
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: req.body.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
+
+
   res.status(200).json({
     message: "",
     body: { success: true },

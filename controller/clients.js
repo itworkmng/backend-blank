@@ -1,10 +1,10 @@
 const asyncHandler = require("../middleware/asyncHandle");
-const sendEmail = require("../utils/email");
 const bcrypt = require("bcrypt");
 const { generateLengthPass } = require("../utils/functions");
 const MyError = require("../utils/myError");
 const path = require("path");
 const cuid = require("cuid");
+const { sendHtmlEmail } = require("../middleware/email");
 exports.signin = asyncHandler(async (req, res, next) => {
   const { phone, password } = req.body;
   if (!phone || !password) {
@@ -28,7 +28,6 @@ exports.signin = asyncHandler(async (req, res, next) => {
 });
 exports.signup = asyncHandler(async (req, res, next) => {
   const password = generateLengthPass(6);
-  console.log(password);
 
   if (req.role != "superman") {
     const user = await req.db.users.findByPk(req.id);
@@ -51,11 +50,16 @@ exports.signup = asyncHandler(async (req, res, next) => {
   Нууц үг: <b>${password}</b><br>
   Өдрийг сайхан өнгөрүүлээрэй!<br>
   <a href="www.eblank.mn">www.eblank.mn</a>`;
-  await sendEmail({
-    subject: "Шинэ бүртгэл үүслээ",
+
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: req.body.email,
-    message,
-  });
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
 
   res.status(200).json({
     message: "",
@@ -134,7 +138,6 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
   }
   const salt = await bcrypt.genSalt(10);
   const new_password = generateLengthPass(6);
-  console.log(new_password);
 
   const password = await bcrypt.hash(new_password, salt);
   await req.db.clients.update(
@@ -157,12 +160,15 @@ exports.forgot_password = asyncHandler(async (req, res, next) => {
   Нууц үг: <b>${new_password}</b><br>
   Өдрийг сайхан өнгөрүүлээрэй!<br>
   <a href="www.itwork.mn">www.itwork.mn</a> ©${new Date().getFullYear()} БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН.`;
-  await sendEmail({
-    subject: "Нууц үг солигдлоо",
+  const emailBody = {
+    title: "Цахим бланкийн систем",
+    label: message,
     email: find_users.email,
-    message,
-  });
-
+    from: "Системийн Админ",
+    buttonText: "Систем рүү очих",
+    buttonUrl: process.env.WEBSITE_URL,
+  };
+  await sendHtmlEmail({ ...emailBody })
   res.status(200).json({
     message: "",
     body: { success: true },
